@@ -5,16 +5,16 @@ pool_threads = 15
 
 [SEED]
 
-domain = seed.bitcoin.sipa.be,dnsseed.bluematt.me,dnsseed.bitcoin.dashjr.org,seed.bitcoinstats.com,bitseed.xf2.org
+domain = seed.satoshithefirst.com,seed.vitalikthesecond.com,seed.emmathethird.com
 
 
 [NETWORK]
 
-default_port = 8333
-magic = 0xD9B4BEF9
+default_port = 8454
+magic = 0xE891B48A
 version = 70015
 services = 0b0000000000000000000000000000000000000000000000000000000000000001
-user_agent = /btc_node_scanner:0.0.1/
+user_agent = /bgl_node_scanner:0.0.1/
 ping_timeout = 5
 connect_timeout = 15
 handshake_timeout = 6
