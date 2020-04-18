@@ -153,33 +153,9 @@ class App:
 
     def add_bootstrap_tor_seed(self):
         if self.testnet:
-            tor_seeds = [
-                ('thfsmmn2jbitcoin.onion', 18333),
-                ('it2pj4f7657g3rhi.onion', 18333),
-                ('nkf5e6b7pl4jfd4a.onion', 18333),
-                ('4zhkir2ofl7orfom.onion', 18333),
-                ('t6xj6wilh4ytvcs7.onion', 18333),
-                ('i6y6ivorwakd7nw3.onion', 18333),
-                ('ubqj4rsu3nqtxmtp.onion', 18333)]
+            tor_seeds = []
         else:
-            tor_seeds = [
-                ('5ghqw4wj6hpgfvdg.onion', 8333),
-                ('bitcoinostk4e4re.onion', 8333),
-                ('bk5ejfe56xakvtkk.onion', 8333),
-                ('czsbwh4pq4mh3izl.onion', 8333),
-                ('e3tn727fywnioxrc.onion', 8333),
-                ('evolynhit7shzeet.onion', 8333),
-                ('i2r5tbaizb75h26f.onion', 8333),
-                ('jxrvw5iqizppbgml.onion', 8333),
-                ('kjy2eqzk4zwi5zd3.onion', 8333),
-                ('pqosrh6wfaucet32.onion', 8333),
-                ('pt2awtcs2ulm75ig.onion', 8333),
-                ('szsm43ou7otwwyfv.onion', 8333),
-                ('tfu4kqfhsw5slqp2.onion', 8333),
-                ('vso3r6cmjoomhhgg.onion', 8333),
-                ('xdnigz4qn5dbbw2t.onion', 8333),
-                ('zy3kdqowmrb7xm7h.onion', 8333)
-            ]
+            tor_seeds = []
         for a in tor_seeds:
             self.not_scanned_addresses[a[0]] = {"port": a[1],
                                                 "address": a[0]}
@@ -195,7 +171,7 @@ class App:
             return
         c = 0
         for i in result:
-            self.log.debug('%s received from %s' % (i.host, domain))
+            self.log.info('%s received from %s' % (i.host, domain))
             c += 1
             if not self.not_scanned_addresses or 1:
                 self.not_scanned_addresses[i.host] = {"port": self.network["default_port"],
