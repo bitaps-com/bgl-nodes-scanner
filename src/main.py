@@ -48,6 +48,7 @@ class App:
         self.scanned_addresses = set()
         self.scan_threads_limit = int(config["SCAN"]["threads"])
         self.scan_threads = 0
+        self.insert_node_scan_stat = 0
         self.discovered_nodes = 0
         self.background_tasks = []
         self.log.info("Start btc node src ...")

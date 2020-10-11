@@ -72,9 +72,9 @@ async def report_online(address,
                         start_height,
                         services,
                         geo,
-                        time, pool):
+                        time, app):
     try:
-        async with pool.acquire() as conn:
+        async with app.db_pool.acquire() as conn:
             await conn.execute("INSERT INTO node as a "
                                "                 (ip, "
                                "                  port, "
@@ -116,44 +116,46 @@ async def report_online(address,
                                b"" if geo["geo"] is None else geo["geo"].encode(),
                                time
                                )
-            await conn.execute("INSERT  INTO node_scan_stat (ip,"
-                               "                             status,"
-                               "                             timestamp,"
-                               "                             latency,"
-                               "                             block_height,"
-                               "                             services) "
-                               "VALUES ($1,$2,$3,$4,$5,$6)",
-                               address.encode(),
-                               0,
-                               time,
-                               latency,
-                               start_height,
-                               services)
+            if app.insert_node_scan_stat:
+                await conn.execute("INSERT  INTO node_scan_stat (ip,"
+                                   "                             status,"
+                                   "                             timestamp,"
+                                   "                             latency,"
+                                   "                             block_height,"
+                                   "                             services) "
+                                   "VALUES ($1,$2,$3,$4,$5,$6)",
+                                   address.encode(),
+                                   0,
+                                   time,
+                                   latency,
+                                   start_height,
+                                   services)
 
     except:
         pass
 
 
-async def report_offline(address, pool):
+async def report_offline(address, app):
     try:
-        async with pool.acquire() as conn:
+        async with app.db_pool.acquire() as conn:
             row = await conn.fetchval("SELECT ip FROM node  WHERE ip = $1 LIMIT 1;", address.encode())
             if not row:
                 return
-        async with pool.acquire() as conn:
-            await conn.execute("INSERT  INTO node_scan_stat (ip,"
-                               "                             status,"
-                               "                             timestamp,"
-                               "                             latency,"
-                               "                             block_height,"
-                               "                             services) "
-                               "VALUES ($1,$2,$3,$4,$5,$6)",
-                               address.encode(),
-                               1,
-                               int(time.time()),
-                               0,
-                               0,
-                               0)
+        if app.insert_node_scan_stat:
+            async with app.db_pool.acquire() as conn:
+                await conn.execute("INSERT  INTO node_scan_stat (ip,"
+                                   "                             status,"
+                                   "                             timestamp,"
+                                   "                             latency,"
+                                   "                             block_height,"
+                                   "                             services) "
+                                   "VALUES ($1,$2,$3,$4,$5,$6)",
+                                   address.encode(),
+                                   1,
+                                   int(time.time()),
+                                   0,
+                                   0,
+                                   0)
     except:
         pass
 
