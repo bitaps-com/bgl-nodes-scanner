@@ -243,10 +243,10 @@ class App:
                                           conn.services,
                                           geo,
                                           int(time.time()),
-                                          self.db_pool)
+                                          self)
             else:
                 await model.report_offline(address,
-                                           self.db_pool)
+                                           self)
             conn.__del__()
 
         except:
